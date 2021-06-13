@@ -8,7 +8,9 @@
 // alert(welcomemessage);
 
 var button = document.querySelector('#btn-translate');
+var word = document.querySelector('#txt-input');
+var output = document.querySelector('#output');
 
 button.addEventListener('click', function clickEventHandler() {
-  console.log('clicked');
+  output.innerText = 'fdfscsdfcsdcsd' + word.value;
 });
