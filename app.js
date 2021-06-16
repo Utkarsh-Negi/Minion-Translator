@@ -8,29 +8,26 @@
 // alert(welcomemessage);
 
 var button = document.querySelector('#btn-translate');
-var word = document.querySelector('#txt-input');
-var output = document.querySelector('#output');
+var translateInput = document.querySelector('#txt-input');
+var translateOutput = document.querySelector('#output');
 
-var serverURL = 'https://api.funtranslations.com/translate/minion.json';
-function getTranslationURL(text) {
-  return serverURL + '?' + 'text' + text;
-}
+var url = 'https://api.funtranslations.com/translate/minion.json';
+button.addEventListener('click', buttonClickHandler);
 
-function errorHandler(error) {
-  console.log('error occured', error);
-  alert(
-    'Something went wrong with the server please try again after sometime...'
-  );
-}
-
-button.addEventListener('click', function clickEventHandler() {
-  var inputText = word.value;
-
-  fetch(getTranslationURL(inputText))
+function buttonClickHandler(event) {
+  // console.log('button clicked');
+  var input = translateInput.value;
+  var finalURL = constructURL(input);
+  console.log(finalURL);
+  fetch(finalURL)
     .then((response) => response.json())
     .then((json) => {
-      var translatedText = json.contents.translated;
-      output.innerText = translatedText;
+      translateOutput.innerText = json.contents.translated;
     })
-    .catch(errorHandler);
-});
+    .catch(() => alert('some error occured'));
+}
+
+function constructURL(inputText) {
+  var encodedURI = encodeURI(inputText);
+  return `${url}?text=${encodedURI}`;
+}
